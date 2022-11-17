@@ -45,21 +45,27 @@ import org.apache.ibatis.transaction.Transaction;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
 /**
+ * Sql执行器抽象类
+ *
  * @author Clinton Begin
  */
 public abstract class BaseExecutor implements Executor {
 
   private static final Log log = LogFactory.getLog(BaseExecutor.class);
 
+  /** 事务管理器，真正实现事务操作的对象 */
   protected Transaction transaction;
   protected Executor wrapper;
 
   protected ConcurrentLinkedQueue<DeferredLoad> deferredLoads;
+  /** 一级缓存，缓存 */
   protected PerpetualCache localCache;
   protected PerpetualCache localOutputParameterCache;
+  /** mybatis全局配置 */
   protected Configuration configuration;
 
   protected int queryStack;
+
   private boolean closed;
 
   protected BaseExecutor(Configuration configuration, Transaction transaction) {

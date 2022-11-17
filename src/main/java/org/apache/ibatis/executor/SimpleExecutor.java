@@ -32,6 +32,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
+ * Simple类型的Sql执行器
+ *
  * @author Clinton Begin
  */
 public class SimpleExecutor extends BaseExecutor {
