@@ -48,11 +48,17 @@ import org.apache.ibatis.session.SqlSession;
  */
 public class DefaultSqlSession implements SqlSession {
 
+  /** mybatis全局配置 */
   private final Configuration configuration;
+
+  /** Sql执行器 */
   private final Executor executor;
 
+  /** 事务是否自动提交 */
   private final boolean autoCommit;
+
   private boolean dirty;
+
   private List<Cursor<?>> cursorList;
 
   public DefaultSqlSession(Configuration configuration, Executor executor, boolean autoCommit) {
@@ -190,6 +196,12 @@ public class DefaultSqlSession implements SqlSession {
     return update(statement, null);
   }
 
+  /**
+   * 增删改最终都会执行该方法
+   * @param statement Unique identifier matching the statement to execute.
+   * @param parameter A parameter object to pass to the statement.
+   * @return row
+   */
   @Override
   public int update(String statement, Object parameter) {
     try {

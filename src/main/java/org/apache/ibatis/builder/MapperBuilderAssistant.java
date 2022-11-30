@@ -299,6 +299,7 @@ public class MapperBuilderAssistant extends BaseBuilder {
     }
 
     MappedStatement statement = statementBuilder.build();
+    // *将解析好的Statement添加到Configuration.mappedStatements中
     configuration.addMappedStatement(statement);
     return statement;
   }

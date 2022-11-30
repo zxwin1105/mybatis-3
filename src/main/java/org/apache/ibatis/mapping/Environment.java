@@ -20,11 +20,26 @@ import javax.sql.DataSource;
 import org.apache.ibatis.transaction.TransactionFactory;
 
 /**
+ * Environment的属性都可以在Mybatis的主配置文件中配置
+ *
  * @author Clinton Begin
  */
 public final class Environment {
+
+  /** Environment的唯一标识,可以配置多个Environment,用于生成多个SqlSessionFactory */
   private final String id;
+
+  /**
+   * 事务工厂,TransactionFactory类型由配置文件指定(JDBC|MANAGED)
+   *  JDBC – 这个配置直接使用了 JDBC 的提交和回滚设施，它依赖从数据源获得的连接来管理事务作用域。
+   *  MANAGED – 这个配置几乎没做什么。它从不提交或回滚一个连接，而是让容器来管理事务的整个生命周期（比如 JEE 应用服务器的上下文）。
+   * 默认情况下它会关闭连接。然而一些容器并不希望连接被关闭，因此需要将 coseConnection 属性设置为 false 来阻止默认的关闭行为。
+   *
+   * 如果使用 Spring + MyBatis，则没有必要配置事务管理器，因为 Spring 模块会使用自带的管理器来覆盖前面的配置。
+   */
   private final TransactionFactory transactionFactory;
+
+  /** 数据源,DataSource类型由配置文件指定(POOLED|UNPOOLED|JNDI) */
   private final DataSource dataSource;
 
   public Environment(String id, TransactionFactory transactionFactory, DataSource dataSource) {

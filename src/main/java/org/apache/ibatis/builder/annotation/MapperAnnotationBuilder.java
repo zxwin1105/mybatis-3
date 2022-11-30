@@ -120,7 +120,9 @@ public class MapperAnnotationBuilder {
 
   public void parse() {
     String resource = type.toString();
+    // 判断资源时候被加载过
     if (!configuration.isResourceLoaded(resource)) {
+      // 加载XML 配置文件
       loadXmlResource();
       configuration.addLoadedResource(resource);
       assistant.setCurrentNamespace(type.getName());
@@ -156,6 +158,9 @@ public class MapperAnnotationBuilder {
     }
   }
 
+  /**
+   * 解析并加载Mapper XML配置文件信息
+   */
   private void loadXmlResource() {
     // Spring may not know the real resource name so we check a flag
     // to prevent loading again a resource twice
