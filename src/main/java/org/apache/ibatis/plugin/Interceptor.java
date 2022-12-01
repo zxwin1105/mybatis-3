@@ -18,14 +18,34 @@ package org.apache.ibatis.plugin;
 import java.util.Properties;
 
 /**
+ * Mybatis的拦截器接口，自定义拦截器需要实现该接口
+ *
  * @author Clinton Begin
  */
 public interface Interceptor {
 
+  /**
+   * 拦截器真正的业务逻辑实现方法
+   *
+   * @param invocation invocation
+   * @return Object
+   * @throws Throwable
+   */
   Object intercept(Invocation invocation) throws Throwable;
 
+  /**
+   * 拦截器链会调用拦截器的plugin方法
+   * 该方法一般为固定写法return Plugin.wrap(target, this);
+   * 通过Plugin.wrap()代理去执行#intercept() 方法
+   * @param target 拦截的目标
+   * @return
+   */
   Object plugin(Object target);
 
+  /**
+   * 可以设置一些参数
+   * @param properties 参数
+   */
   void setProperties(Properties properties);
 
 }

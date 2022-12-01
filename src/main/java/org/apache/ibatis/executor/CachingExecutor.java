@@ -33,12 +33,17 @@ import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.transaction.Transaction;
 
 /**
+ * 如果Configuration.cacheEnabled=true，则默认会使用CachingExecutor保障executor
+ *
  * @author Clinton Begin
  * @author Eduardo Macarron
  */
 public class CachingExecutor implements Executor {
 
+  /** 被包装的executor */
   private final Executor delegate;
+
+  /** 事务缓存管理器，用于管理二级缓存 */
   private final TransactionalCacheManager tcm = new TransactionalCacheManager();
 
   public CachingExecutor(Executor delegate) {
@@ -94,7 +99,9 @@ public class CachingExecutor implements Executor {
       throws SQLException {
     Cache cache = ms.getCache();
     if (cache != null) {
+      // 如果statement配置了 flushCache=true 会清空二级缓存
       flushCacheIfRequired(ms);
+      // 开启了缓存
       if (ms.isUseCache() && resultHandler == null) {
         ensureNoOutParams(ms, boundSql);
         @SuppressWarnings("unchecked")

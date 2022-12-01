@@ -49,7 +49,9 @@ public final class MappedStatement {
   private Cache cache;
   private ParameterMap parameterMap;
   private List<ResultMap> resultMaps;
+  /** 每次刷新缓存 */
   private boolean flushCacheRequired;
+  /** 是否使用缓存 */
   private boolean useCache;
   private boolean resultOrdered;
   /** Sql类型 */

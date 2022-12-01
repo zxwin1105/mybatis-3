@@ -53,7 +53,7 @@ public interface Executor {
      * @param rowBounds 分页信息
      * @param resultHandler 结果处理器
      * @param cacheKey 缓存key
-     * @param boundSql TODO　boundSql
+     * @param boundSql sql信息
      * @param <E> 查询结果对象
      * @return 查询列表
      * @throws SQLException　

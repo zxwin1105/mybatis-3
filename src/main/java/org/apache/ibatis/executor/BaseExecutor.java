@@ -58,9 +58,12 @@ public abstract class BaseExecutor implements Executor {
   protected Executor wrapper;
 
   protected ConcurrentLinkedQueue<DeferredLoad> deferredLoads;
-  /** 一级缓存，缓存 */
+  /** 一级缓存，缓存当前SqlSession相同查询的结果数据 */
   protected PerpetualCache localCache;
+
+  /** 一级缓存，缓存当前SqlSession存储过程的返回结果 */
   protected PerpetualCache localOutputParameterCache;
+
   /** mybatis全局配置 */
   protected Configuration configuration;
 
@@ -119,6 +122,7 @@ public abstract class BaseExecutor implements Executor {
     if (closed) {
       throw new ExecutorException("Executor was closed.");
     }
+    // 执行更新操作前会清空一级缓存
     clearLocalCache();
     return doUpdate(ms, parameter);
   }
@@ -155,10 +159,12 @@ public abstract class BaseExecutor implements Executor {
     List<E> list;
     try {
       queryStack++;
+      // 从LocalCache缓存中获取
       list = resultHandler == null ? (List<E>) localCache.getObject(key) : null;
       if (list != null) {
         handleLocallyCachedOutputParameters(ms, key, parameter, boundSql);
       } else {
+        // 缓存中不存在，从数据库中获取
         list = queryFromDatabase(ms, parameter, rowBounds, resultHandler, key, boundSql);
       }
     } finally {
@@ -306,6 +312,13 @@ public abstract class BaseExecutor implements Executor {
     StatementUtil.applyTransactionTimeout(statement, statement.getQueryTimeout(), transaction.getTimeout());
   }
 
+  /**
+   * 处理缓存获取的数据输出参数
+   * @param ms ms
+   * @param key 缓存key
+   * @param parameter 查询条件
+   * @param boundSql sql信息
+   */
   private void handleLocallyCachedOutputParameters(MappedStatement ms, CacheKey key, Object parameter, BoundSql boundSql) {
     if (ms.getStatementType() == StatementType.CALLABLE) {
       final Object cachedParameter = localOutputParameterCache.getObject(key);
@@ -333,6 +346,7 @@ public abstract class BaseExecutor implements Executor {
     }
     localCache.putObject(key, list);
     if (ms.getStatementType() == StatementType.CALLABLE) {
+      // 当statementType = StatementType.CALLABLE 存储查询参数
       localOutputParameterCache.putObject(key, parameter);
     }
     return list;

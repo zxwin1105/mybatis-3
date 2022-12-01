@@ -23,8 +23,13 @@ import java.lang.reflect.Method;
  */
 public class Invocation {
 
+  /** 被拦截的对象 */
   private final Object target;
+
+  /** 被拦截执行的方法 */
   private final Method method;
+
+  /** 方法的参数 */
   private final Object[] args;
 
   public Invocation(Object target, Method method, Object[] args) {

@@ -23,15 +23,19 @@ import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.cache.CacheException;
 
 /**
+ * 缓存
+ *
  * @author Clinton Begin
  */
 public class PerpetualCache implements Cache {
 
+  /** 缓存标识 */
   private final String id;
 
   private Map<Object, Object> cache = new HashMap<Object, Object>();
 
   public PerpetualCache(String id) {
+    // 一级缓存 LocalCache
     this.id = id;
   }
 
