@@ -15,23 +15,31 @@
  */
 package org.apache.ibatis.executor.statement;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.List;
-
 import org.apache.ibatis.cursor.Cursor;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.session.ResultHandler;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+
 /**
- * 真正连接数据库，执行sql的对象
+ * statement处理器，主要的功能：
+ * 创建statement对象->设置参数->执行Sql->结果集映射
  *
  * @author Clinton Begin
  */
 public interface StatementHandler {
 
+    /**
+     * 创建Statement对象
+     * @param connection 数据库链接
+     * @param transactionTimeout 事务超时时间
+     * @return
+     * @throws SQLException
+     */
     Statement prepare(Connection connection, Integer transactionTimeout)
             throws SQLException;
 

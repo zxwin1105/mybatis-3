@@ -144,6 +144,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.testcontainers</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>1.17.2</version>
+    </dependency>
+    <dependency>
       <groupId>ognl</groupId>
       <artifactId>ognl</artifactId>
       <version>3.1.17</version>
@@ -273,6 +278,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <testCompilerArgument>${maven.compiler.testCompilerArgument}</testCompilerArgument>
+          <source>8</source>
+          <target>8</target>
         </configuration>
       </plugin>
       <plugin>

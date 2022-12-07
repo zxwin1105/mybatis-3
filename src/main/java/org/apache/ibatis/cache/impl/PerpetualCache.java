@@ -15,12 +15,12 @@
  */
 package org.apache.ibatis.cache.impl;
 
+import org.apache.ibatis.cache.Cache;
+import org.apache.ibatis.cache.CacheException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReadWriteLock;
-
-import org.apache.ibatis.cache.Cache;
-import org.apache.ibatis.cache.CacheException;
 
 /**
  * 缓存
@@ -35,7 +35,6 @@ public class PerpetualCache implements Cache {
   private Map<Object, Object> cache = new HashMap<Object, Object>();
 
   public PerpetualCache(String id) {
-    // 一级缓存 LocalCache
     this.id = id;
   }
 
