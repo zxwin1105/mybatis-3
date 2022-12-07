@@ -47,10 +47,11 @@ public class Plugin implements InvocationHandler {
     // 获取target和其父类接口
     Class<?>[] interfaces = getAllInterfaces(type, signatureMap);
     if (interfaces.length > 0) {
+      // 执行invoke方法
       return Proxy.newProxyInstance(
           type.getClassLoader(),
           interfaces,
-          // 执行invoke方法
+          // 创建Plugin对象（InvocationHandler），
           new Plugin(target, interceptor, signatureMap));
     }
     return target;
@@ -81,9 +82,12 @@ public class Plugin implements InvocationHandler {
     if (interceptsAnnotation == null) {
       throw new PluginException("No @Intercepts annotation was found in interceptor " + interceptor.getClass().getName());      
     }
+    // 获取@Intercepts的Signature属性信息
     Signature[] sigs = interceptsAnnotation.value();
     Map<Class<?>, Set<Method>> signatureMap = new HashMap<Class<?>, Set<Method>>();
+    // 解析属性
     for (Signature sig : sigs) {
+      // 从methods中获取sig（拦截类型）的方法。处理一个type配置了多方法方式
       Set<Method> methods = signatureMap.get(sig.type());
       if (methods == null) {
         methods = new HashSet<Method>();
