@@ -51,12 +51,16 @@ public class ParamNameResolver {
   private boolean hasParamAnnotation;
 
   public ParamNameResolver(Configuration config, Method method) {
+    // 获取参数类型
     final Class<?>[] paramTypes = method.getParameterTypes();
+    // 获取参数的注解
     final Annotation[][] paramAnnotations = method.getParameterAnnotations();
     final SortedMap<Integer, String> map = new TreeMap<Integer, String>();
+    // 获取出所有@Param注解的值
     int paramCount = paramAnnotations.length;
     // get names from @Param annotations
     for (int paramIndex = 0; paramIndex < paramCount; paramIndex++) {
+      // 排除ResultHandler 和 RowBounds类型
       if (isSpecialParameter(paramTypes[paramIndex])) {
         // skip special parameters
         continue;
@@ -116,6 +120,7 @@ public class ParamNameResolver {
     if (args == null || paramCount == 0) {
       return null;
     } else if (!hasParamAnnotation && paramCount == 1) {
+      // 如果没有使用注解且只有一个参数，直接返回，不用做参数名称解析
       return args[names.firstKey()];
     } else {
       final Map<String, Object> param = new ParamMap<Object>();

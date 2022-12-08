@@ -46,7 +46,6 @@ public class MapperMethod {
 
     private final SqlCommand command;
 
-    // TODO
     private final MethodSignature method;
 
     public MapperMethod(Class<?> mapperInterface, Method method, Configuration config) {
@@ -84,6 +83,7 @@ public class MapperMethod {
                 } else if (method.returnsCursor()) {
                     result = executeForCursor(sqlSession, args);
                 } else {
+                    // 参数转换，将方法入参 封装为Map
                     Object param = method.convertArgsToSqlCommandParam(args);
                     result = sqlSession.selectOne(command.getName(), param);
                 }
