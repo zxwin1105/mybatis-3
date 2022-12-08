@@ -35,6 +35,7 @@ import java.util.concurrent.locks.ReadWriteLock;
  *  initialize();
  * }
  * </pre>
+ * 二级缓存存储接口
  *
  * @author Clinton Begin
  */

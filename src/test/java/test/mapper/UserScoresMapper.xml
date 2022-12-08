@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="test.mapper.UserScoresMapper">
+
+    <cache/>
+
+    <select id="selectOne" resultType="test.entity.UserScores" parameterType="int">
+        select * from userscores where id = #{id};
+    </select>
+
+    <select id="selectAll" resultType="test.entity.UserScores">
+        select * from userscores;
+    </select>
+
+    <update id="updateScoreById" parameterType="test.entity.UserScores">
+        update userscores set scores = #{scores} where id = #{id}
+    </update>
+
+</mapper>

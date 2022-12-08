@@ -15,10 +15,6 @@
  */
 package org.apache.ibatis.mapping;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.ibatis.cache.Cache;
 import org.apache.ibatis.executor.keygen.Jdbc3KeyGenerator;
 import org.apache.ibatis.executor.keygen.KeyGenerator;
@@ -27,6 +23,10 @@ import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.session.Configuration;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 解析 XXXMapper.xml 文件，生成的Mapped声名，存储xml文件中的statement的信息
@@ -46,6 +46,8 @@ public final class MappedStatement {
   private ResultSetType resultSetType;
   /** 待执行的sql数据 */
   private SqlSource sqlSource;
+  /** 二级缓存存储对象 */
+
   private Cache cache;
   private ParameterMap parameterMap;
   private List<ResultMap> resultMaps;
